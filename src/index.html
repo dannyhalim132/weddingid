@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danny & May's Wedding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&family=Great+Vibes&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-zoom.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-thumbnail.min.css">
+    <link rel="stylesheet" href="resources/css/styles.css">
+    <link rel="stylesheet" href="resources/css/gallery.css">
+    <link rel="stylesheet" href="resources/css/comment.css">
+    <link rel="stylesheet" href="resources/css/overlay.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Danny & May's Wedding">
+    <meta property="og:description" content="Enter our journey~">
+    <meta property="og:image" content="https://ourdmstory.com/image/L23thumb.jpeg">
+    <meta property="og:url" content="https://ourdmstory.com">
+    <meta property="og:type" content="website">
+</head>
+<body>
+<div id="loading-overlay2" class="overlay2">
+    <h1 id="initial-text" class="welcome-text">D & M</h1>
+    <h2 id="tap-text" class="tap-text" style="display: none;">Enter our journey...</h2>
+    <div id="pulse-circle" class="pulse-circle" style="display: none;"></div>
+</div>
+<div id="app" v-cloak>
+    <div id="player"></div>
+
+    <nav class="bg-cream bg-opacity-90 shadow-md fixed w-full z-10">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-semibold text-gray-800" style="font-family: 'Great Vibes', cursive;">D & M</a>
+                <div class="hidden md:flex space-x-6">
+                    <a v-for="link in navLinks" :key="link.href" :href="link.href"
+                       @click.prevent="scrollToSection(link.href)"
+                       class="text-gray-600 hover:text-gray-800 transition duration-300">
+                        {{ link.text }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="section bg-image h-screen flex items-center justify-center"
+             style="background-image: url('image/P5.png');">
+        <div class="overlay absolute inset-0"></div>
+        <div class="relative z-10 text-center text-white px-4">
+            <h1 id="danny-may" class="text-6xl font-light mb-4" data-aos="fade-up">Danny & May</h1>
+            <p class="text-xl mb-2">Request the pleasure of your company at our wedding</p>
+        </div>
+    </section>
+
+    <section id="countdown" class="section py-24 bg-cream">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center" aos="fade-up">
+                <h2 class="text-4xl font-light mb-8 font-serif text-emerald-800">{{ weddingDate }} at {{ weddingTime }}</h2>
+                <p class="text-2xl mb-8 font-serif text-emerald-700">Join us on our special day in {{ countdownDays }} Days</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-image py-64" style="background-image: url('image/P5.png');"></section>
+
+    <div id="story" class="section py-24 bg-cream">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto" data-aos="fade-up">
+                <div class="our-story-section">
+                    <h2 class="text-4xl font-light text-center mb-12" style="font-family: 'Great Vibes', cursive;">Our Love Story</h2>
+                    <div class="our-story-image" data-aos="fade-up" data-aos-delay="200">
+                        <img :src="ourStoriesImg" alt="Danny and May">
+                    </div>
+                    <div v-for="line in ourStories" class="our-story-content" data-aos="fade-up" data-aos-delay="200"
+                         style="font-family: 'Playfair Display'">
+                        <p>{{ line.text }}</p></br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section bg-image py-64" style="background-image: url('image/P2.png');"></section>
+
+    <section id="details" class="section py-24 bg-cream">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-light text-center mb-12" style="font-family: 'Great Vibes', cursive;">Wedding Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div v-for="detail in weddingDetails" :key="detail.title" class="text-center" data-aos="fade-up"
+                     data-aos-delay="200">
+                    <h3 :id="detail.title" class="text-2xl font-semibold mb-2">{{ detail.title }}</h3>
+                    <p v-html="detail.content"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-image py-64" style="background-image: url('image/P4.png');"></section>
+
+    <!-- Inside the #gallery section, replace the existing .gallery-container content with: -->
+    <div id="gallery" class="section py-24 bg-cream">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-light text-center mb-12" data-aos="fade-up"  style="font-family: 'Great Vibes', cursive;">Our Gallery</h2>
+            <div class="gallery-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery" ref="gallery">
+                    <div class="gallery-item" v-for="(image, index) in galleryImages" :key="index"
+                         @click="openLightbox(index)">
+                        <img :src="image.thumb" :alt="image.alt">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this lightbox markup after the gallery container -->
+    <div class="lightbox" v-if="lightboxOpen" @click.self="closeLightbox">
+        <div class="lightbox-content">
+            <img :src="currentImage.src" :alt="currentImage.alt">
+        </div>
+        <div class="lightbox-close" @click="closeLightbox">&times;</div>
+        <div class="lightbox-nav lightbox-prev" @click="prevImage">&lt;</div>
+        <div class="lightbox-nav lightbox-next" @click="nextImage">&gt;</div>
+    </div>
+
+    <section class="section bg-image py-64" style="background-image: url('image/P6.png');"></section>
+
+    <section id="rsvp" class="section section py-24 bg-cream">
+        <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-4xl font-light mb-6"  style="font-family: 'Great Vibes', cursive;">RSVP</h2>
+                <p class="text-lg mb-8">by <strong>{{rsvpByDate}}</strong></p>
+                <a href="https://forms.gle/2fwyStLeVSMgNBDw8"
+                   target="_blank"
+                   class="inline-flex items-center px-6 py-3 bg-gold text-white font-medium rounded-md hover:bg-gold-dark transition-colors duration-300"
+                   style="background-color:#d4af37; border-radius:25px;">
+                    <i class="fas fa-envelope mr-2"></i>
+                    RSVP Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-image py-64" style="background-image: url('image/P9.png');"></section>
+
+    <div id="contact" class="section py-24 bg-cream">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-light text-center mb-4 font-serif text-emerald-800" style="font-family: 'Great Vibes', cursive;">Contact Us</h2>
+            <p class="text-center mb-8 text-emerald-700 italic">We'd love to hear from you!</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="text-center" v-for="detail in contactDetails" :key="detail.title">
+                    <h3 class="text-2xl font-semibold mb-4 text-emerald-700">{{ detail.title }}</h3>
+                    <a :href="detail.content" class="inline-flex items-center px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full hover:bg-emerald-200 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-cream py-6">
+        <div class="container mx-auto px-6 text-center text-gray-700">
+            <p>© {{ currentYear }} Danny & May's Wedding. All rights reserved.</p>
+            <p>Made with love in anticipation of our special day.</p>
+        </div>
+    </footer>
+</div>
+<div id="message-popup"></div>
+<div id="message-container"></div>
+
+<!-- Make sure to include Vue before your script.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue-light-gallery@1.0.1/dist/vue-light-gallery.common.js"></script>-->
+<script src="resources/scripts/script.js"></script>
+</body>
+</html>
